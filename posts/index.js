@@ -1,7 +1,6 @@
-// @ts-nocheck
 const express = require("express");
 const bodyParser = require("body-parser");
-const { randomBytes } = require("crypto");
+const { v4: uuidv4 } = require("uuid"); // Import UUID v4
 const cors = require("cors");
 const axios = require("axios");
 
@@ -16,7 +15,7 @@ app.get("/posts", (req, res) => {
 });
 
 app.post("/posts", async (req, res) => {
-  const id = randomBytes(4).toString("hex");
+  const id = uuidv4(); // Generate a UUID
   const { title } = req.body;
   console.log(req.body);
   posts[id] = {
@@ -24,14 +23,20 @@ app.post("/posts", async (req, res) => {
     title,
   };
 
-  await axios.post("http://localhost:4005/events", {
-    type: "PostCreated",
-    data: {
-      id,
-      title,
-    },
-  });
-  res.status(201).send(posts[id]);
+  try {
+    await axios.post("http://localhost:4005/events", {
+      type: "PostCreated",
+      data: {
+        id,
+        title,
+      },
+    });
+
+    res.status(201).send(posts[id]);
+  } catch (error) {
+    console.error("Error creating post:", error);
+    res.status(500).send("Error creating post");
+  }
 });
 
 app.post("/events", (req, res) => {
@@ -40,6 +45,7 @@ app.post("/events", (req, res) => {
   res.send({});
 });
 
-app.listen(4000, () => {
-  console.log("Listening on 4000");
+const PORT = 4000;
+app.listen(PORT, () => {
+  console.log(`Listening on ${PORT}`);
 });
