@@ -1,6 +1,6 @@
 import React from 'react';
 import PostCreate from './components/PostCreate';
-// import PostList from './PostList';
+import PostList from './PostList';
 
 const App = () => {
   return (
@@ -9,7 +9,7 @@ const App = () => {
       <PostCreate />
       <hr />
       <h1>Posts</h1>
-      {/* <PostList /> */}
+      <PostList />
     </div>
   );
 };
