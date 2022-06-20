@@ -1,0 +1,28 @@
+# Node.js
+node_modules/
+npm-debug.log
+.DS_Store
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Build and dependency directories
+build/
+dist/
+coverage/
+.nyc_output/
+
+# Logs and generated files
+logs/
+*.log
+npm-debug.log*
+
+# IDE files
+.vscode/
+.idea/
+
+# Dependency lock files
+package-lock.json
+yarn.lock
